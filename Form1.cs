@@ -188,5 +188,25 @@ namespace Calculator
 
         }
 
+        /// <summary>
+        /// CE‰Ÿ‰ºˆ—
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ClearEntry_Click(object sender, EventArgs e)
+        {
+            Label_Input.Text = "0";
+            CanDot = true;
+        }
+
+        /// <summary>
+        /// C‰Ÿ‰ºˆ—
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Clear_Click(object sender, EventArgs e)
+        {
+            VariableInitialize();
+        }
     }
 }

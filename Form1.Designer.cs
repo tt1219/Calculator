@@ -87,6 +87,7 @@
             button2.TabIndex = 1;
             button2.Text = "CE";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += ClearEntry_Click;
             // 
             // button3
             // 
@@ -96,6 +97,7 @@
             button3.TabIndex = 1;
             button3.Text = "C";
             button3.UseVisualStyleBackColor = true;
+            button3.Click += Clear_Click;
             // 
             // button4
             // 
