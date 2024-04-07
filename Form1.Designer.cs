@@ -105,6 +105,7 @@
             button4.TabIndex = 1;
             button4.Text = "÷";
             button4.UseVisualStyleBackColor = true;
+            button4.Click += OperationButton_Click;
             // 
             // button5
             // 
@@ -144,6 +145,7 @@
             button8.TabIndex = 1;
             button8.Text = "×";
             button8.UseVisualStyleBackColor = true;
+            button8.Click += OperationButton_Click;
             // 
             // button9
             // 
@@ -183,6 +185,7 @@
             button12.TabIndex = 1;
             button12.Text = "-";
             button12.UseVisualStyleBackColor = true;
+            button12.Click += OperationButton_Click;
             // 
             // button13
             // 
@@ -222,6 +225,7 @@
             button16.TabIndex = 1;
             button16.Text = "+";
             button16.UseVisualStyleBackColor = true;
+            button16.Click += OperationButton_Click;
             // 
             // button17
             // 
@@ -260,6 +264,7 @@
             button20.TabIndex = 1;
             button20.Text = "=";
             button20.UseVisualStyleBackColor = true;
+            button20.Click += OperationButton_Click;
             // 
             // Form1
             // 

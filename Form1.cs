@@ -8,7 +8,7 @@ namespace Calculator
     public partial class Form1 : Form
     {
         private static ILog logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        
+
         // コンソールを表示するための魔法
         [System.Runtime.InteropServices.DllImport("kernel32.dll")]
         private static extern bool AllocConsole();
@@ -17,11 +17,17 @@ namespace Calculator
         // 最大精度
         private readonly int MAX_PRECISION = 5;
         //
-        private readonly string Dot = "";
+        private readonly string Dot = ".";
 
         // 変数
+        // 初期フラグ
+        private bool IsFirst = true;
         // ドット押下可能フラグ
         private bool CanDot = true;
+        // 前回押下されたオペレーター
+        private string PreOperator = "";
+        // 前回押下後の計算結果
+        private decimal PreResult = 0;
 
 
         public Form1()
@@ -48,6 +54,22 @@ namespace Calculator
         }
 
         /// <summary>
+        /// 初期フラグがtrueの場合、初期化する
+        /// 数値とドット押下時は次の計算が始まるので、当PGMを利用
+        /// </summary>
+        private void VariableInitialize()
+        {
+            if (IsFirst)
+            {
+                IsFirst = false;
+                Label_Process.Text = "";
+                Label_Input.Text = "0";
+                PreResult = 0;
+                PreOperator = "";
+            }
+        }
+
+        /// <summary>
         /// 数値ボタン押下時処理
         /// </summary>
         /// <param name="sender"></param>
@@ -56,6 +78,10 @@ namespace Calculator
         {
             var num = ((Button)sender).Text;
             InfoLogger("数値押下：" + num);
+
+            // 初期時は、フラグと処理結果を初期化する
+            VariableInitialize();
+
             if (Label_Input.Text.Equals("0"))
             {
                 Label_Input.Text = num;
@@ -63,7 +89,7 @@ namespace Calculator
             else
             {
                 // ドット未押下かドット押下後5桁までは追加する
-                if (CanDot || (!CanDot && Label_Input.Text.Substring(Label_Input.Text.IndexOf(Dot)).Length < MAX_PRECISION))
+                if (CanDot || (!CanDot && Label_Input.Text.Substring(Label_Input.Text.IndexOf(Dot)).Length <= MAX_PRECISION))
                 {
                     Label_Input.Text += num;
                 }
@@ -79,11 +105,88 @@ namespace Calculator
         /// <param name="e"></param>
         private void DotButton_Click(object sender, EventArgs e)
         {
+            InfoLogger("ドット押下");
+            // 初期時は、フラグと処理結果を初期化する
+            VariableInitialize();
+
             if (CanDot)
             {
                 Label_Input.Text += Dot;
                 CanDot = false;
             }
         }
+
+        /// <summary>
+        /// 四則演算、=のボタン押下の処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OperationButton_Click(object sender, EventArgs e)
+        {
+            var ope = ((Button)sender).Text;
+            InfoLogger("オペレーション押下：" + ope);
+
+            // 初期時は、フラグと処理結果を初期化する
+            if (IsFirst)
+            {
+                IsFirst = false;
+                Label_Process.Text = "";
+            }
+
+            if (!string.IsNullOrEmpty(PreOperator))
+            {
+                if (PreOperator.Equals("+"))
+                {
+                    // 足し算
+                    PreResult = PreResult + decimal.Parse(Label_Input.Text);
+                }
+                else if (PreOperator.Equals("-"))
+                {
+                    // 引き算
+                    PreResult = PreResult - decimal.Parse(Label_Input.Text);
+                }
+                else if (PreOperator.Equals("×"))
+                {
+                    // 掛け算
+                    PreResult = PreResult * decimal.Parse(Label_Input.Text);
+                }
+                else if (PreOperator.Equals("÷"))
+                {
+                    // 割り算
+                    PreResult = PreResult / decimal.Parse(Label_Input.Text);
+                }
+                // 計算結果の共通まるめ処理
+                PreResult = Math.Round(PreResult, MAX_PRECISION, MidpointRounding.AwayFromZero);
+
+            }
+            else
+            {
+                PreResult = decimal.Parse(Label_Input.Text);
+            }
+
+            // オペレータを更新
+            PreOperator = ope;
+            if (ope.Equals("="))
+            {
+                // = 押下時は初期化する
+                IsFirst = true;
+                // 処理途中表示に値設定
+                Label_Process.Text += " " + Label_Input.Text.ToString() + " " + PreOperator.ToString();
+                // 表入力値を0へ
+                Label_Input.Text = PreResult.ToString();
+            }
+            else
+            {
+                // 表入力値を0へ
+                Label_Input.Text = "0";
+                // 処理途中表示に値設定
+                Label_Process.Text = PreResult.ToString() + " " + PreOperator.ToString();
+            }
+
+            // ドットは押下可能に
+            CanDot = true;
+
+        }
+
     }
 }
