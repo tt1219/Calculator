@@ -237,6 +237,7 @@
             button17.TabIndex = 1;
             button17.Text = "±";
             button17.UseVisualStyleBackColor = true;
+            button17.Click += PlusMinus_Click;
             // 
             // button18
             // 

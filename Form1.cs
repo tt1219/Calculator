@@ -25,7 +25,7 @@ namespace Calculator
         // ドット押下可能フラグ
         private bool CanDot = true;
         // 前回押下されたオペレーター
-        private string PreOperator = "";
+        private string PreOperator = string.Empty;
         // 前回押下後の計算結果
         private decimal PreResult = 0;
 
@@ -62,10 +62,10 @@ namespace Calculator
             if (IsFirst)
             {
                 IsFirst = false;
-                Label_Process.Text = "";
+                Label_Process.Text = string.Empty;
                 Label_Input.Text = "0";
                 PreResult = 0;
-                PreOperator = "";
+                PreOperator = string.Empty;
             }
         }
 
@@ -130,7 +130,8 @@ namespace Calculator
             if (IsFirst)
             {
                 IsFirst = false;
-                Label_Process.Text = "";
+                Label_Process.Text = string.Empty;
+                PreOperator = string.Empty;
             }
 
             if (!string.IsNullOrEmpty(PreOperator))
@@ -207,6 +208,33 @@ namespace Calculator
         private void Clear_Click(object sender, EventArgs e)
         {
             VariableInitialize();
+        }
+
+        /// <summary>
+        /// ±押下時処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PlusMinus_Click(object sender, EventArgs e)
+        {
+
+            // 初期時は、フラグと処理結果を初期化する
+            if (IsFirst)
+            {
+                IsFirst = false;
+            }
+
+            if (!Label_Input.Text.Equals("0"))
+            {
+                if (Label_Input.Text.Contains("-"))
+                {
+                    Label_Input.Text = Label_Input.Text.Replace("-", string.Empty);
+                }
+                else
+                {
+                    Label_Input.Text = "-" + Label_Input.Text;
+                }
+            }
         }
     }
 }
