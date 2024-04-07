@@ -250,6 +250,7 @@
             button19.TabIndex = 1;
             button19.Text = ".";
             button19.UseVisualStyleBackColor = true;
+            button19.Click += DotButton_Click;
             // 
             // button20
             // 
