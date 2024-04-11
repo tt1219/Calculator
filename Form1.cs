@@ -237,6 +237,5 @@ namespace Calculator
             }
         }
 
-        //Žc‚è1ŽžŠÔ25•ª’ö“x
     }
 }
