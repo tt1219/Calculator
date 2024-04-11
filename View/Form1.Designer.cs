@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             Label_Input = new Label();
             Label_Process = new Label();
             button1 = new Button();
@@ -262,6 +263,10 @@
             // 
             // button20
             // 
+            button20.BackgroundImage = (Image)resources.GetObject("button20.BackgroundImage");
+            button20.BackgroundImageLayout = ImageLayout.Stretch;
+            button20.Font = new Font("Yu Gothic UI", 1F);
+            button20.ForeColor = SystemColors.ControlText;
             button20.Location = new Point(222, 291);
             button20.Name = "button20";
             button20.Size = new Size(64, 43);
@@ -274,6 +279,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(302, 349);
             Controls.Add(button20);
             Controls.Add(button19);
