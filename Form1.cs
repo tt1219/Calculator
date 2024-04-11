@@ -46,11 +46,13 @@ namespace Calculator
         /// <param name="msg"></param>
         private void InfoLogger(string msg)
         {
-#if DEBUG
-            Console.WriteLine(msg);
-#else
+
             logger.Info(msg);
-#endif
+            //#if DEBUG
+            //            Console.WriteLine(msg);
+            //#else
+            //            logger.Info(msg);
+            //#endif
         }
 
         /// <summary>
