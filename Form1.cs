@@ -134,6 +134,10 @@ namespace Calculator
                 PreOperator = string.Empty;
             }
 
+            // 0割は不可
+            if (Label_Input.Text.Equals("0") && ope.Equals("÷"))
+                return;
+
             if (!string.IsNullOrEmpty(PreOperator))
             {
                 if (PreOperator.Equals("+"))
@@ -157,7 +161,9 @@ namespace Calculator
                     PreResult = PreResult / decimal.Parse(Label_Input.Text);
                 }
                 // 計算結果の共通まるめ処理
-                PreResult = Math.Round(PreResult, MAX_PRECISION, MidpointRounding.AwayFromZero);
+                PreResult = RoundByMaxPrecision(PreResult);
+                if (PreResult == 0)
+                    CanDot = true;
 
             }
             else
@@ -196,6 +202,7 @@ namespace Calculator
         /// <param name="e"></param>
         private void ClearEntry_Click(object sender, EventArgs e)
         {
+            InfoLogger("CE押下");
             Label_Input.Text = "0";
             CanDot = true;
         }
@@ -207,6 +214,7 @@ namespace Calculator
         /// <param name="e"></param>
         private void Clear_Click(object sender, EventArgs e)
         {
+            InfoLogger("C押下");
             VariableInitialize();
         }
 
@@ -217,6 +225,7 @@ namespace Calculator
         /// <param name="e"></param>
         private void PlusMinus_Click(object sender, EventArgs e)
         {
+            InfoLogger("±押下");
 
             // 初期時は、フラグと処理結果を初期化する
             if (IsFirst)
@@ -237,5 +246,33 @@ namespace Calculator
             }
         }
 
+        /// <summary>
+        /// %押下時
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Percent_Click(object sender, EventArgs e)
+        {
+            InfoLogger("%押下");
+
+            if (!Label_Input.Text.Equals("0"))
+            {
+                var percented = decimal.Parse(Label_Input.Text) / 100;
+                var rouded = RoundByMaxPrecision(percented);
+                if (rouded == 0)
+                {
+                    Label_Input.Text = "0";
+                    CanDot = true;
+                }
+                else
+                {
+                    Label_Input.Text = RoundByMaxPrecision(percented).ToString();
+                    if (Label_Input.Text.Contains('.'))
+                        CanDot = false;
+                }
+            }
+        }
+
+        private decimal RoundByMaxPrecision(decimal value) => Math.Round(value, MAX_PRECISION, MidpointRounding.AwayFromZero);
     }
 }
