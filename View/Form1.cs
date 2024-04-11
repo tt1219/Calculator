@@ -1,3 +1,4 @@
+using Calculator.Service;
 using log4net;
 using log4net.Repository.Hierarchy;
 using Microsoft.VisualBasic.Logging;
@@ -142,26 +143,9 @@ namespace Calculator
 
             if (!string.IsNullOrEmpty(PreOperator))
             {
-                if (PreOperator.Equals("+"))
-                {
-                    // ë´ÇµéZ
-                    PreResult = PreResult + decimal.Parse(Label_Input.Text);
-                }
-                else if (PreOperator.Equals("-"))
-                {
-                    // à¯Ç´éZ
-                    PreResult = PreResult - decimal.Parse(Label_Input.Text);
-                }
-                else if (PreOperator.Equals("Å~"))
-                {
-                    // ä|ÇØéZ
-                    PreResult = PreResult * decimal.Parse(Label_Input.Text);
-                }
-                else if (PreOperator.Equals("ÅÄ"))
-                {
-                    // äÑÇËéZ
-                    PreResult = PreResult / decimal.Parse(Label_Input.Text);
-                }
+
+                // åvéZ
+                PreResult = CalcService.Calc(PreResult, decimal.Parse(Label_Input.Text), PreOperator);
                 // åvéZåãâ ÇÃã§í Ç‹ÇÈÇﬂèàóù
                 PreResult = RoundByMaxPrecision(PreResult);
                 if (PreResult == 0)
@@ -268,7 +252,7 @@ namespace Calculator
                 }
                 else
                 {
-                    Label_Input.Text = RoundByMaxPrecision(percented).ToString();
+                    Label_Input.Text = rouded.ToString();
                     if (Label_Input.Text.Contains('.'))
                         CanDot = false;
                 }
