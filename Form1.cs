@@ -32,11 +32,11 @@ namespace Calculator
         public Form1()
         {
             InitializeComponent();
-#if Debug
+#if DEBUG
             // コンソールを表示
             AllocConsole();
 #endif
-            InfoLogger("デバッグメッセージです。");
+            InfoLogger("起動しました。");
 
         }
 
@@ -49,7 +49,6 @@ namespace Calculator
 #if DEBUG
             Console.WriteLine(msg);
 #else
-            // TODO なんかテキストファイルが出ない
             logger.Info(msg);
 #endif
         }
@@ -78,7 +77,7 @@ namespace Calculator
         private void NumberButton_Click(object sender, EventArgs e)
         {
             var num = ((Button)sender).Text;
-            InfoLogger("数値押下：" + num);
+            InfoLogger(num);
 
             // 初期時は、フラグと処理結果を初期化する
             VariableInitialize();
@@ -106,7 +105,7 @@ namespace Calculator
         /// <param name="e"></param>
         private void DotButton_Click(object sender, EventArgs e)
         {
-            InfoLogger("ドット押下");
+            InfoLogger(".(ドット)");
             // 初期時は、フラグと処理結果を初期化する
             VariableInitialize();
 
@@ -125,7 +124,7 @@ namespace Calculator
         private void OperationButton_Click(object sender, EventArgs e)
         {
             var ope = ((Button)sender).Text;
-            InfoLogger("オペレーション押下：" + ope);
+            InfoLogger(ope);
 
             // 初期時は、フラグと処理結果を初期化する
             if (IsFirst)
@@ -203,7 +202,7 @@ namespace Calculator
         /// <param name="e"></param>
         private void ClearEntry_Click(object sender, EventArgs e)
         {
-            InfoLogger("CE押下");
+            InfoLogger("CE");
             Label_Input.Text = "0";
             CanDot = true;
         }
@@ -215,7 +214,7 @@ namespace Calculator
         /// <param name="e"></param>
         private void Clear_Click(object sender, EventArgs e)
         {
-            InfoLogger("C押下");
+            InfoLogger("C");
             VariableInitialize();
         }
 
@@ -226,7 +225,7 @@ namespace Calculator
         /// <param name="e"></param>
         private void PlusMinus_Click(object sender, EventArgs e)
         {
-            InfoLogger("±押下");
+            InfoLogger("±");
 
             // 初期時は、フラグと処理結果を初期化する
             if (IsFirst)
@@ -254,7 +253,7 @@ namespace Calculator
         /// <param name="e"></param>
         private void Percent_Click(object sender, EventArgs e)
         {
-            InfoLogger("%押下");
+            InfoLogger("%");
 
             if (!Label_Input.Text.Equals("0"))
             {
@@ -274,6 +273,11 @@ namespace Calculator
             }
         }
 
+        /// <summary>
+        /// 指定の最大桁に四捨五入
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         private decimal RoundByMaxPrecision(decimal value) => Math.Round(value, MAX_PRECISION, MidpointRounding.AwayFromZero);
     }
 }
